@@ -51,7 +51,7 @@ public class MergeJava {
             System.out.println("> Lendo arquivo: " + arquivo.getName());
             try {
                 //leitura completa do arquivo
-                String dados = new String(Files.readAllBytes(arquivo.toPath()));
+                String dados = Files.readString(arquivo.toPath(), StandardCharsets.UTF_8);
 
                 //Controladores para remover o public das classes que não são main
                 Boolean trocouPublic = false;

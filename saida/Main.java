@@ -40,8 +40,8 @@ public class Main {
 
         double area = AreaCalculator.calculateArea(myCircle);
 
-        System.out.println("O raio do cÃ­rculo Ã©: " + myCircle.getRadius());
-        System.out.println("A Ã¡rea do cÃ­rculo Ã©: " + area);
+        System.out.println("O raio do círculo é: " + myCircle.getRadius());
+        System.out.println("A área do círculo é: " + area);
     }
 }
 //===== FIM DO ARQUIVO: Main.java =====
