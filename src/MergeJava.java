@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 public class MergeJava {
@@ -33,8 +34,7 @@ public class MergeJava {
         return stringFinal.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(Ascii.printAsciiTable());
+    public static void merge() {
         System.out.println("> Lendo arquivos da pasta ./entrada");
         File f = new File("./entrada");
         File[] arquivos = f.listFiles(); // retorna um array de Files
@@ -129,5 +129,19 @@ public class MergeJava {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Ascii.printAsciiTable());
+        System.out.println("+-----------------------------------------+");
+        System.out.println("| Pressione ENTER 2x para iniciar o merge |");
+        System.out.println("| Criado por: Gabriel Evangelista Massara |");
+        System.out.println("+-----------------------------------------+");
+
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        if(scanner.hasNextLine()) {
+            merge();
+        }
     }
 }
