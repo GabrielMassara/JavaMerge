@@ -8,7 +8,7 @@ class AreaCalculator {
         return Math.PI * radius * radius;
     }
 }
-//=====FIM DO ARQUIVO: AreaCalculator.java =====
+//===== FIM DO ARQUIVO: AreaCalculator.java =====
 
 //===== INICIO DO ARQUIVO: Circle.java =====
 
@@ -23,7 +23,7 @@ class Circle {
         return radius;
     }
 }
-//=====FIM DO ARQUIVO: Circle.java =====
+//===== FIM DO ARQUIVO: Circle.java =====
 
 //===== INICIO DO ARQUIVO: Main.java =====
 public class Main {
@@ -36,5 +36,5 @@ public class Main {
         System.out.println("A Ã¡rea do cÃ­rculo Ã©: " + area);
     }
 }
-//=====FIM DO ARQUIVO: Main.java =====
+//===== FIM DO ARQUIVO: Main.java =====
 

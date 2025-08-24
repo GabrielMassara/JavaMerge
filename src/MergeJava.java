@@ -34,6 +34,8 @@ public class MergeJava {
     }
 
     public static void main(String[] args) {
+        System.out.println(Ascii.printAsciiTable());
+        System.out.println("> Lendo arquivos da pasta ./entrada");
         File f = new File("./entrada");
         File[] arquivos = f.listFiles(); // retorna um array de Files
         String[] nomes = f.list(); // retorna o nome dos arquivos em Strings
@@ -42,6 +44,7 @@ public class MergeJava {
         List<String> imports = new ArrayList<>();
 
         for (File arquivo : arquivos) {
+            System.out.println("> Lendo arquivo: " + arquivo.getName());
             try {
                 //leitura completa do arquivo
                 String dados = new String(Files.readAllBytes(arquivo.toPath()));
@@ -53,6 +56,7 @@ public class MergeJava {
 
                 //define o nome do arquivo principal
                 if (dados.contains("public static void main(String[] args)")) {
+                    System.out.println("> Encontrado arquivo principal: " + arquivo.getName());
                     nomeArquivo = arquivo.getName();
                 }
 
@@ -65,6 +69,7 @@ public class MergeJava {
                 sb.append("//===== INICIO DO ARQUIVO: ").append(arquivo.getName()).append(" =====").append(System.lineSeparator());
 
                 //le as linhas individualmente
+                System.out.println("> Removendo pacotes e imports de: " + arquivo.getName());
                 for (String linha : linhas) {
                     //se nao for o arquivo principal, isso é feito, pois só a classe principal pode ser public
                     if (!dados.contains("public static void main(String[] args)")) {
@@ -74,6 +79,7 @@ public class MergeJava {
                         }
                         if (linha.contains("{") && !trocouPublic) {
                                 trocouPublic = true;
+                                System.out.println("> Removendo 'public' de: " + arquivo.getName());
                                 auxRemoverPublic = new StringBuilder(auxRemoverPublic.toString().replace("public ", ""));
                         }
                     } else {
@@ -92,10 +98,11 @@ public class MergeJava {
                     }
                 }
 
-                sb.append("//=====FIM DO ARQUIVO: ").append(arquivo.getName()).append(" =====")
+                sb.append("//===== FIM DO ARQUIVO: ").append(arquivo.getName()).append(" =====")
                         .append(System.lineSeparator());
 
                 //gera o arquivo final
+                System.out.println("> Gerando arquivo final: " + arquivo.getName());
                 listaArquivosFinal.add(new Arquivo(arquivo.getName(), sb.toString()));
             } catch (java.io.IOException e) {
                 e.printStackTrace();
@@ -103,7 +110,7 @@ public class MergeJava {
         }
 
         StringBuilder conteudoFinal = new StringBuilder();
-
+        System.out.println("> Gerando conteúdo final para: " + nomeArquivo);
         conteudoFinal.append("// Arquivo gerado automaticamente, Feito por Gabriel Evangelista Massara")
                 .append(System.lineSeparator());
 
