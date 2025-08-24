@@ -1,4 +1,13 @@
-<img src="src/logo.png">
+    ___  ________  ___      ___ ________  _____ ______   _______   ________  ________  _______      
+   |\  \|\   __  \|\  \    /  /|\   __  \|\   _ \  _   \|\  ___ \ |\   __  \|\   ____\|\  ___ \     
+   \ \  \ \  \|\  \ \  \  /  / | \  \|\  \ \  \\\__\ \  \ \   __/|\ \  \|\  \ \  \___|\ \   __/|    
+ __ \ \  \ \   __  \ \  \/  / / \ \   __  \ \  \\|__| \  \ \  \_|/_\ \   _  _\ \  \  __\ \  \_|/__  
+|\  \\_\  \ \  \ \  \ \    / /   \ \  \ \  \ \  \    \ \  \ \  \_|\ \ \  \\  \\ \  \|\  \ \  \_|\ \ 
+\ \________\ \__\ \__\ \__/ /     \ \__\ \__\ \__\    \ \__\ \_______\ \__\\ _\\ \_______\ \_______\
+ \|________|\|__|\|__|\|__|/       \|__|\|__|\|__|     \|__|\|_______|\|__|\|__|\|_______|\|_______|
+                                                                                                    
+                                                                                                    
+
 **JavaMerge** é uma ferramenta em Java que lê múltiplos arquivos `.java` de um diretório de entrada e gera um único arquivo consolidado, mantendo apenas a classe principal com `main` como `public` e removendo duplicações de `package` e `import`.  
 O objetivo é facilitar atividades acadêmicas e exercícios onde é necessário submeter apenas **um único arquivo Java**, mas o projeto está organizado em vários arquivos.  
 
