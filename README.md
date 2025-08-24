@@ -1,5 +1,4 @@
-# JavaMerge
-
+<img src="src/logo.png">
 **JavaMerge** é uma ferramenta em Java que lê múltiplos arquivos `.java` de um diretório de entrada e gera um único arquivo consolidado, mantendo apenas a classe principal com `main` como `public` e removendo duplicações de `package` e `import`.  
 O objetivo é facilitar atividades acadêmicas e exercícios onde é necessário submeter apenas **um único arquivo Java**, mas o projeto está organizado em vários arquivos.  
 
