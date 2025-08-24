@@ -18,6 +18,17 @@ public class MergeJava {
         }
     }
 
+    public static String removePackageImport(String str) {
+        StringBuilder stringFinal = new StringBuilder();
+        String[] linhas = str.split("\\R");
+        for (String linha : linhas) {
+            if (!linha.startsWith("package ") && !linha.startsWith("import ")) {
+                stringFinal.append(linha).append(System.lineSeparator());
+            }
+        }
+        return stringFinal.toString();
+    }
+
     public static void main(String[] args) {
         File f = new File("./entrada");
         File[] arquivos = f.listFiles(); // retorna um array de Files
@@ -68,7 +79,7 @@ public class MergeJava {
 
                     //se ele ja tiver feito a primeira parte de remover o public, os packages e os imports só adiciona a linha
                     if (appendTrocouPublic) {
-                        sb.append(linha).append(System.lineSeparator());
+                        sb.append(removePackageImport(linha)).append(System.lineSeparator());
                     } else if (trocouPublic) {
                         //senao, se ele ja tiver feito a primeira parte de remover o public, ele remove os packages e imports, e adiciona tudo ao codigo
                         removePackageImport(auxRemoverPublic);
