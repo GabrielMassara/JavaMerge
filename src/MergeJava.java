@@ -16,7 +16,7 @@ public class MergeJava {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 str.append(linha).append(System.lineSeparator());
             } else {
-                if(!imports.contains(linha.trim())) {
+                if (!imports.contains(linha.trim())) {
                     imports.add(linha.trim());
                 }
             }
@@ -30,7 +30,7 @@ public class MergeJava {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 stringFinal.append(linha).append(System.lineSeparator());
             } else {
-                if(!imports.contains(linha.trim())) {
+                if (!imports.contains(linha.trim())) {
                     imports.add(linha.trim());
                 }
             }
@@ -47,100 +47,110 @@ public class MergeJava {
         List<Arquivo> listaArquivosFinal = new ArrayList<>();
         List<String> imports = new ArrayList<>();
 
-        for (File arquivo : arquivos) {
-            System.out.println("> Lendo arquivo: " + arquivo.getName());
-            try {
-                //leitura completa do arquivo
-                String dados = Files.readString(arquivo.toPath(), StandardCharsets.UTF_8);
+        if (arquivos.length == 0) {
+            System.out.println("Nenhum arquivo encontrado na pasta ./entrada");
+        } else {
+            for (File arquivo : arquivos) {
+                System.out.println("> Lendo arquivo: " + arquivo.getName());
+                try {
+                    // leitura completa do arquivo
+                    String dados = Files.readString(arquivo.toPath(), StandardCharsets.UTF_8);
 
-                //Controladores para remover o public das classes que não são main
-                Boolean trocouPublic = false;
-                Boolean appendTrocouPublic = false;
-                StringBuilder auxRemoverPublic = new StringBuilder();
+                    // Controladores para remover o public das classes que não são main
+                    Boolean trocouPublic = false;
+                    Boolean appendTrocouPublic = false;
+                    StringBuilder auxRemoverPublic = new StringBuilder();
 
-                //define o nome do arquivo principal
-                if (dados.contains("public static void main(String[] args)")) {
-                    System.out.println("> Encontrado arquivo principal: " + arquivo.getName());
-                    nomeArquivo = arquivo.getName();
-                }
+                    // define o nome do arquivo principal
+                    if (dados.contains("public static void main(String[] args)")) {
+                        System.out.println("> Encontrado arquivo principal: " + arquivo.getName());
+                        nomeArquivo = arquivo.getName();
+                    }
 
-                // array que le linha por linha
-                String[] linhas = dados.split("\\R");
+                    // array que le linha por linha
+                    String[] linhas = dados.split("\\R");
 
-                // cria uma nova string para remover os packages
-                StringBuilder sb = new StringBuilder();
+                    // cria uma nova string para remover os packages
+                    StringBuilder sb = new StringBuilder();
 
-                sb.append("//===== INICIO DO ARQUIVO: ").append(arquivo.getName()).append(" =====").append(System.lineSeparator());
+                    sb.append("//===== INICIO DO ARQUIVO: ").append(arquivo.getName()).append(" =====")
+                            .append(System.lineSeparator());
 
-                //le as linhas individualmente
-                System.out.println("> Removendo pacotes e imports de: " + arquivo.getName());
-                for (String linha : linhas) {
-                    //se nao for o arquivo principal, isso é feito, pois só a classe principal pode ser public
-                    if (!dados.contains("public static void main(String[] args)")) {
-                        //Junta em uma String o conteudo até achar o primeiro "{", e ao final remove a anotacao public
-                        if (!trocouPublic) {
-                            auxRemoverPublic.append(linha).append(System.lineSeparator());
-                        }
-                        if (linha.contains("{") && !trocouPublic) {
+                    // le as linhas individualmente
+                    System.out.println("> Removendo pacotes e imports de: " + arquivo.getName());
+                    for (String linha : linhas) {
+                        // se nao for o arquivo principal, isso é feito, pois só a classe principal pode
+                        // ser public
+                        if (!dados.contains("public static void main(String[] args)")) {
+                            // Junta em uma String o conteudo até achar o primeiro "{", e ao final remove a
+                            // anotacao public
+                            if (!trocouPublic) {
+                                auxRemoverPublic.append(linha).append(System.lineSeparator());
+                            }
+                            if (linha.contains("{") && !trocouPublic) {
                                 trocouPublic = true;
                                 System.out.println("> Removendo 'public' de: " + arquivo.getName());
-                                auxRemoverPublic = new StringBuilder(auxRemoverPublic.toString().replace("public ", ""));
+                                auxRemoverPublic = new StringBuilder(
+                                        auxRemoverPublic.toString().replace("public ", ""));
+                            }
+                        } else {
+                            // pula essa verificacao se for a main
+                            appendTrocouPublic = true;
                         }
-                    } else {
-                        //pula essa verificacao se for a main
-                        appendTrocouPublic = true;
+
+                        // se ele ja tiver feito a primeira parte de remover o public, os packages e os
+                        // imports só adiciona a linha
+                        if (appendTrocouPublic) {
+                            sb.append(removePackageImport(linha, imports));
+                        } else if (trocouPublic) {
+                            // senao, se ele ja tiver feito a primeira parte de remover o public, ele remove
+                            // os packages e imports, e adiciona tudo ao codigo
+                            removePackageImport(auxRemoverPublic, imports);
+                            sb.append(auxRemoverPublic);
+                            appendTrocouPublic = true;
+                        }
                     }
 
-                    //se ele ja tiver feito a primeira parte de remover o public, os packages e os imports só adiciona a linha
-                    if (appendTrocouPublic) {
-                        sb.append(removePackageImport(linha, imports));
-                    } else if (trocouPublic) {
-                        //senao, se ele ja tiver feito a primeira parte de remover o public, ele remove os packages e imports, e adiciona tudo ao codigo
-                        removePackageImport(auxRemoverPublic, imports);
-                        sb.append(auxRemoverPublic);
-                        appendTrocouPublic = true;
-                    }
+                    sb.append("//===== FIM DO ARQUIVO: ").append(arquivo.getName()).append(" =====")
+                            .append(System.lineSeparator());
+
+                    // gera o arquivo final
+                    System.out.println("> Gerando arquivo final: " + arquivo.getName());
+                    listaArquivosFinal.add(new Arquivo(arquivo.getName(), sb.toString()));
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                sb.append("//===== FIM DO ARQUIVO: ").append(arquivo.getName()).append(" =====")
-                        .append(System.lineSeparator());
+            StringBuilder conteudoFinal = new StringBuilder();
+            System.out.println("> Gerando conteúdo final para: " + nomeArquivo);
+            conteudoFinal.append("// Arquivo gerado automaticamente, Feito por MergeJava")
+                    .append(System.lineSeparator());
+            conteudoFinal.append("// Repositório: https://github.com/GabrielMassara/JavaMerge.git")
+                    .append(System.lineSeparator())
+                    .append(System.lineSeparator());
 
-                //gera o arquivo final
-                System.out.println("> Gerando arquivo final: " + arquivo.getName());
-                listaArquivosFinal.add(new Arquivo(arquivo.getName(), sb.toString()));
+            conteudoFinal.append("//===== INÍCIO DOS IMPORTS =====")
+                    .append(System.lineSeparator());
+
+            for (String imp : imports) {
+                conteudoFinal.append(imp).append(System.lineSeparator());
+            }
+
+            conteudoFinal.append("//===== FIM DOS IMPORTS =====")
+                    .append(System.lineSeparator())
+                    .append(System.lineSeparator());
+
+            for (Arquivo arq : listaArquivosFinal) {
+                conteudoFinal.append(arq.getConteudo()).append(System.lineSeparator());
+            }
+
+            try {
+                Files.writeString(Paths.get("saida", nomeArquivo), conteudoFinal.toString(), StandardCharsets.UTF_8);
+                System.out.println("Arquivo gerado com sucesso: " + nomeArquivo);
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        StringBuilder conteudoFinal = new StringBuilder();
-        System.out.println("> Gerando conteúdo final para: " + nomeArquivo);
-        conteudoFinal.append("// Arquivo gerado automaticamente, Feito por MergeJava")
-                .append(System.lineSeparator());
-        conteudoFinal.append("// Repositório: https://github.com/GabrielMassara/JavaMerge.git")
-                .append(System.lineSeparator())
-                .append(System.lineSeparator());
-
-        conteudoFinal.append("//===== INÍCIO DOS IMPORTS =====")
-                .append(System.lineSeparator());
-
-        for (String imp : imports) {
-            conteudoFinal.append(imp).append(System.lineSeparator());
-        }
-
-        conteudoFinal.append("//===== FIM DOS IMPORTS =====")
-                .append(System.lineSeparator())
-                .append(System.lineSeparator());
-
-        for (Arquivo arq : listaArquivosFinal) {
-            conteudoFinal.append(arq.getConteudo()).append(System.lineSeparator());
-        }
-
-        try {
-            Files.writeString(Paths.get("saida", nomeArquivo), conteudoFinal.toString(), StandardCharsets.UTF_8);
-            System.out.println("Arquivo gerado com sucesso: " + nomeArquivo);
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -154,7 +164,7 @@ public class MergeJava {
 
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        if(scanner.hasNextLine()) {
+        if (scanner.hasNextLine()) {
             scanner.close();
             merge();
         }
