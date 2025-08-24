@@ -16,7 +16,9 @@ public class MergeJava {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 str.append(linha).append(System.lineSeparator());
             } else {
-                imports.add(linha);
+                if(!imports.contains(linha.trim())) {
+                    imports.add(linha.trim());
+                }
             }
         }
     }
@@ -28,7 +30,9 @@ public class MergeJava {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 stringFinal.append(linha).append(System.lineSeparator());
             } else {
-                imports.add(linha);
+                if(!imports.contains(linha.trim())) {
+                    imports.add(linha.trim());
+                }
             }
         }
         return stringFinal.toString();
@@ -111,12 +115,22 @@ public class MergeJava {
 
         StringBuilder conteudoFinal = new StringBuilder();
         System.out.println("> Gerando conteúdo final para: " + nomeArquivo);
-        conteudoFinal.append("// Arquivo gerado automaticamente, Feito por Gabriel Evangelista Massara")
+        conteudoFinal.append("// Arquivo gerado automaticamente, Feito por MergeJava")
+                .append(System.lineSeparator());
+        conteudoFinal.append("// Repositório: https://github.com/GabrielMassara/JavaMerge.git")
+                .append(System.lineSeparator())
+                .append(System.lineSeparator());
+
+        conteudoFinal.append("//===== INÍCIO DOS IMPORTS =====")
                 .append(System.lineSeparator());
 
         for (String imp : imports) {
             conteudoFinal.append(imp).append(System.lineSeparator());
         }
+
+        conteudoFinal.append("//===== FIM DOS IMPORTS =====")
+                .append(System.lineSeparator())
+                .append(System.lineSeparator());
 
         for (Arquivo arq : listaArquivosFinal) {
             conteudoFinal.append(arq.getConteudo()).append(System.lineSeparator());
@@ -141,6 +155,7 @@ public class MergeJava {
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         if(scanner.hasNextLine()) {
+            scanner.close();
             merge();
         }
     }

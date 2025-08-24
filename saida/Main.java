@@ -1,6 +1,13 @@
-// Arquivo gerado automaticamente, Feito por Gabriel Evangelista Massara
+// Arquivo gerado automaticamente, Feito por MergeJava
+// Repositório: https://github.com/GabrielMassara/JavaMerge.git
+
+//===== INÍCIO DOS IMPORTS =====
 import java.io.File;
+import java.nio.file.Paths;
+//===== FIM DOS IMPORTS =====
+
 //===== INICIO DO ARQUIVO: AreaCalculator.java =====
+
 class AreaCalculator {
 
     public static double calculateArea(Circle circle) {
@@ -26,6 +33,7 @@ class Circle {
 //===== FIM DO ARQUIVO: Circle.java =====
 
 //===== INICIO DO ARQUIVO: Main.java =====
+
 public class Main {
     public static void main(String[] args) {
         Circle myCircle = new Circle(5.0);
