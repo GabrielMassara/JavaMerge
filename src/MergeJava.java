@@ -79,7 +79,7 @@ public class MergeJava {
 
                     //se ele ja tiver feito a primeira parte de remover o public, os packages e os imports só adiciona a linha
                     if (appendTrocouPublic) {
-                        sb.append(removePackageImport(linha)).append(System.lineSeparator());
+                        sb.append(removePackageImport(linha));
                     } else if (trocouPublic) {
                         //senao, se ele ja tiver feito a primeira parte de remover o public, ele remove os packages e imports, e adiciona tudo ao codigo
                         removePackageImport(auxRemoverPublic);
