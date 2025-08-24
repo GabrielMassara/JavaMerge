@@ -8,22 +8,26 @@ import java.util.ArrayList;
 public class MergeJava {
     private static String nomeArquivo;
 
-    public static void removePackageImport(StringBuilder str) {
+    public static void removePackageImport(StringBuilder str, List<String> imports) {
         String[] linhas = str.toString().split("\\R");
         str.setLength(0);
         for (String linha : linhas) {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 str.append(linha).append(System.lineSeparator());
+            } else {
+                imports.add(linha);
             }
         }
     }
 
-    public static String removePackageImport(String str) {
+    public static String removePackageImport(String str, List<String> imports) {
         StringBuilder stringFinal = new StringBuilder();
         String[] linhas = str.split("\\R");
         for (String linha : linhas) {
             if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 stringFinal.append(linha).append(System.lineSeparator());
+            } else {
+                imports.add(linha);
             }
         }
         return stringFinal.toString();
@@ -79,10 +83,10 @@ public class MergeJava {
 
                     //se ele ja tiver feito a primeira parte de remover o public, os packages e os imports só adiciona a linha
                     if (appendTrocouPublic) {
-                        sb.append(removePackageImport(linha));
+                        sb.append(removePackageImport(linha, imports));
                     } else if (trocouPublic) {
                         //senao, se ele ja tiver feito a primeira parte de remover o public, ele remove os packages e imports, e adiciona tudo ao codigo
-                        removePackageImport(auxRemoverPublic);
+                        removePackageImport(auxRemoverPublic, imports);
                         sb.append(auxRemoverPublic);
                         appendTrocouPublic = true;
                     }

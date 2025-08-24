@@ -1,4 +1,5 @@
 // Arquivo gerado automaticamente, Feito por Gabriel Evangelista Massara
+import java.io.File;
 //===== INICIO DO ARQUIVO: AreaCalculator.java =====
 class AreaCalculator {
 
@@ -10,6 +11,7 @@ class AreaCalculator {
 //=====FIM DO ARQUIVO: AreaCalculator.java =====
 
 //===== INICIO DO ARQUIVO: Circle.java =====
+
 class Circle {
     private double radius;
 
