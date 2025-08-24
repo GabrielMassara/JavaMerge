@@ -4,7 +4,7 @@ O objetivo é facilitar atividades acadêmicas e exercícios onde é necessário
 
 ---
 
-## ✨ Funcionalidades
+## 👨‍💻 Funcionalidades
 - Lê todos os arquivos `.java` da pasta `entrada/`.  
 - Detecta automaticamente qual arquivo contém o método `main`.  
 - Remove todas as declarações `package` e centraliza os `import` em um único bloco no início do arquivo final.  
