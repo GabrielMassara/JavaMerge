@@ -12,7 +12,7 @@ public class MergeJava {
         String[] linhas = str.toString().split("\\R");
         str.setLength(0);
         for (String linha : linhas) {
-            if (!linha.startsWith("package ") && !linha.startsWith("import ")) {
+            if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 str.append(linha).append(System.lineSeparator());
             }
         }
@@ -22,7 +22,7 @@ public class MergeJava {
         StringBuilder stringFinal = new StringBuilder();
         String[] linhas = str.split("\\R");
         for (String linha : linhas) {
-            if (!linha.startsWith("package ") && !linha.startsWith("import ")) {
+            if (!linha.trim().startsWith("package ") && !linha.trim().startsWith("import ")) {
                 stringFinal.append(linha).append(System.lineSeparator());
             }
         }
